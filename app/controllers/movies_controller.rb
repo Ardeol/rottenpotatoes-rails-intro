@@ -14,8 +14,6 @@ class MoviesController < ApplicationController
     params.permit(:status)
     if params[:order] == "title"
       @movies = Movie.order(:title)
-    elsif params[:order] == "release_date"
-      @movies = Movie.order(:release_date)
     else
       @movies = Movie.all
   end

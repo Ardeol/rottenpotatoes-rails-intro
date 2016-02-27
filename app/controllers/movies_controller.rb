@@ -11,7 +11,6 @@ class MoviesController < ApplicationController
   end
 
   def index
-    params.permit(:status)
     if params[:order] == "title"
       @movies = Movie.order(:title)
     else

@@ -3,6 +3,7 @@ class MoviesController < ApplicationController
   def initialize
     super()
     @hilite = Hash.new("")
+    @all_ratings = Movie.all_ratings
   end
   
   def movie_params

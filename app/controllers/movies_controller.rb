@@ -17,7 +17,9 @@ class MoviesController < ApplicationController
   end
 
   def index
-    cur_movies = Movie.where(rating: params[:ratings].keys)
+  # Filter by ratings
+    rating_filter = params.key?(:ratings) ? params[:ratings].keys.delete_if {|item| !Movie.all_ratings.include?(item) } : Movie.all_ratings
+    cur_movies = Movie.where(rating: rating_filter)
   # Sanitize the field first; id used by default
     params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'
   # Hilite the correct th

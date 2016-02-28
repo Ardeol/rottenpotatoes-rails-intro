@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-  # Filter by ratings
+  # Filter by ratings, and ensure no invalid values are present
     rating_filter = params.key?(:ratings) ? params[:ratings].keys.delete_if {|item| !Movie.all_ratings.include?(item) } : Movie.all_ratings
     cur_movies = Movie.where(rating: rating_filter)
   # Sanitize the field first; id used by default

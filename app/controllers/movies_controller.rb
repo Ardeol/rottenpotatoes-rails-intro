@@ -24,8 +24,7 @@ class MoviesController < ApplicationController
     @hilite.clear
     @hilite[params[:order]] = "hilite"
   # Retrieve in correct order
-    #@movies = Movie.order "#{params[:order]} ASC"
-    @movies = cur_movies
+    @movies = cur_movies.order "#{params[:order]} ASC"
   end
 
   def new

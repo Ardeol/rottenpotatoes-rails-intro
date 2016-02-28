@@ -11,7 +11,8 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'
+    @movies = Movie.order "#{params[:order]} ASC"
   end
 
   def new

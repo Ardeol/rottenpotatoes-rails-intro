@@ -17,13 +17,15 @@ class MoviesController < ApplicationController
   end
 
   def index
+    cur_movies = Movie.where(rating: params[:ratings].keys)
   # Sanitize the field first; id used by default
     params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'
   # Hilite the correct th
     @hilite.clear
     @hilite[params[:order]] = "hilite"
   # Retrieve in correct order
-    @movies = Movie.order "#{params[:order]} ASC"
+    #@movies = Movie.order "#{params[:order]} ASC"
+    @movies = cur_movies
   end
 
   def new

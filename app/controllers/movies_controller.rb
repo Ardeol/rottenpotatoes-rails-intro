@@ -1,6 +1,7 @@
 class MoviesController < ApplicationController
   
   def initialize
+    super()
     @thingy = "test"
   end
   

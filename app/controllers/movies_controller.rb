@@ -1,5 +1,7 @@
 class MoviesController < ApplicationController
-
+  
+  @thingy = "test"
+  
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end

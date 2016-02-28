@@ -1,5 +1,7 @@
 class MoviesController < ApplicationController
 
+  @thingy = "hilite"
+
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
@@ -13,7 +15,6 @@ class MoviesController < ApplicationController
   def index
   # Sanitize the field first; id used by default
     params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'
-    @thingy = "hilite"
     @movies = Movie.order "#{params[:order]} ASC"
   end
 

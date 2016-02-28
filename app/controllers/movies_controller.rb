@@ -11,7 +11,9 @@ class MoviesController < ApplicationController
   end
 
   def index
+  # Sanitize the field first; id used by default
     params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'
+    @thingy = "hilite"
     @movies = Movie.order "#{params[:order]} ASC"
   end
 

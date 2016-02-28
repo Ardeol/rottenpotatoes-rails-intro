@@ -1,12 +1,12 @@
 -#  This file is app/views/movies/index.html.haml
 %h1 All Movies
 
-%h2= "#{@hilite['title']}"
+%h2= @hilite['title']
 
 %table#movies
   %thead
     %tr
-      %th= link_to 'Movie Title', movies_path(order: "title"), :id => 'title_header', :class => ttttt
+      %th= link_to 'Movie Title', movies_path(order: "title"), :id => 'title_header'
       %th Rating
       %th= link_to 'Release Date', movies_path(order: "release_date"), id: 'release_date_header'
       %th More Info

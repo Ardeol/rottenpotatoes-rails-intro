@@ -4,6 +4,8 @@ class MoviesController < ApplicationController
     super()
     @hilite = Hash.new("")
     @all_ratings = Movie.all_ratings
+    @remembered_ratings = Hash.new(false)
+    Movie.all_ratings.each { |r| @remembered_ratings[r] = true }
   end
   
   def movie_params
@@ -19,6 +21,7 @@ class MoviesController < ApplicationController
   def index
   # Filter by ratings, and ensure no invalid values are present
     rating_filter = params.key?(:ratings) ? params[:ratings].keys.delete_if {|item| !Movie.all_ratings.include?(item) } : Movie.all_ratings
+    @remembered_ratings.each_key { |k| @remembered_ratings[k] = rating_filter.include?(k) }
     cur_movies = Movie.where(rating: rating_filter)
   # Sanitize the field first; id used by default
     params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'

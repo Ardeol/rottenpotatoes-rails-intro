@@ -11,10 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if 2 == 2
-      @movies = Movie.order(:title)
-    else
-      @movies = Movie.all
+    @movies = Movie.all
   end
 
   def new

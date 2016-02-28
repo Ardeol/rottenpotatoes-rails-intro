@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
   
   def initialize
     super()
-    @thingy = "test"
+    @hilite = Hash.new("")
   end
   
   def movie_params
@@ -18,6 +18,10 @@ class MoviesController < ApplicationController
   def index
   # Sanitize the field first; id used by default
     params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'
+  # Hilite the correct th
+    @hilite.clear
+    @hilite[params[:order]] = "hilite"
+  # Retrieve in correct order
     @movies = Movie.order "#{params[:order]} ASC"
   end
 

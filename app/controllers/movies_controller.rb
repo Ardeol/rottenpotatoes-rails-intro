@@ -98,6 +98,7 @@ private
     end
     
     if must_redirect
+      flash.keep
       redirect_to movies_path(options)
     end
   end

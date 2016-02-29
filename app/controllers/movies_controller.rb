@@ -9,7 +9,6 @@ class MoviesController < ApplicationController
     
     #session[:order] = 'id'
     #session[:ratings] 
-    @test = true
   end
   
   def movie_params
@@ -24,7 +23,7 @@ class MoviesController < ApplicationController
 
   def index
   # Filter by ratings, and ensure no invalid values are present
-    test_redirect
+    test_redirect(params.key?(:order))
     
     rating_filter = params.key?(:ratings) ? params[:ratings].keys.delete_if {|item| !Movie.all_ratings.include?(item) } : Movie.all_ratings
     @remembered_ratings.each_key { |k| @remembered_ratings[k] = rating_filter.include?(k) }
@@ -68,9 +67,8 @@ class MoviesController < ApplicationController
   
   
 private
-  def test_redirect
-    if @test == true
-      @test = false
+  def test_redirect(p)
+    if p
       hashy = Hash.new
       hashy[:controller] = "movies"
       hashy[:action] = "index"

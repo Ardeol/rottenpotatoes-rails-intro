@@ -81,16 +81,22 @@ private
   end
   
   def session_redirect(params)
-    if !params.key?(:order) || !params.key?(:ratings)
-      options = Hash.new
+    options = Hash.new
+    must_redirect = false
+    
+    if !params.key?(:order)
       options[:order] = session.key?(:order) ? session[:order] : 'id'
-      if session.key?(:ratings)
-        options[:ratings] = session[:ratings]
-      else
-        r = Hash.new
-        Movie.all_ratings.each { |item| r[item] = 1 }
-        options[:ratings] = r
-      end
+      must_redirect = true
+    end
+    
+    if !params.key?(:ratings)
+      r = Hash.new
+      Movie.all_ratings.each { |item| r[item] = 1 }
+      options[:ratings] = r
+      must_redirect = true
+    end
+    
+    if must_redirect
       redirect_to movies_path(options)
     end
   end

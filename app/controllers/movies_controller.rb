@@ -72,6 +72,8 @@ private
     if !@test
       @test = true
       hashy = Hash.new
+      hashy[:controller] = "movies"
+      hashy[:action] = "index"
       hashy[:order] = "title"
       redirect_to hashy
     end

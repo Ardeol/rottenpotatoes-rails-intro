@@ -72,14 +72,7 @@ class MoviesController < ApplicationController
   
   
 private
-  def test_redirect(p)
-    if !p
-      hashy = Hash.new
-      hashy[:order] = "title"
-      redirect_to movies_path(hashy)
-    end
-  end
-  
+
   def session_redirect(params)
     options = Hash.new
     must_redirect = false
@@ -87,6 +80,8 @@ private
     if !params.key?(:order)
       options[:order] = session.key?(:order) ? session[:order] : 'id'
       must_redirect = true
+    else
+      options[:order] = params[:order]
     end
     
     if !params.key?(:ratings)
@@ -94,6 +89,8 @@ private
       Movie.all_ratings.each { |item| r[item] = 1 }
       options[:ratings] = r
       must_redirect = true
+    else
+      options[:ratings] = params[:ratings]
     end
     
     if must_redirect

@@ -85,9 +85,13 @@ private
     end
     
     if !params.key?(:ratings)
-      r = Hash.new
-      Movie.all_ratings.each { |item| r[item] = 1 }
-      options[:ratings] = r
+      if !session.key?(:ratings)
+        r = Hash.new
+        Movie.all_ratings.each { |item| r[item] = 1 }
+        options[:ratings] = r
+      else
+        options[:ratings] = session[:ratings]
+      end
       must_redirect = true
     else
       options[:ratings] = params[:ratings]

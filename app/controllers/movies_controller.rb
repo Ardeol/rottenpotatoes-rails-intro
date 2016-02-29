@@ -72,8 +72,8 @@ private
       hashy = Hash.new
       hashy[:controller] = "movies"
       hashy[:action] = "index"
-    #  hashy[:order] = "title"
-      redirect_to :controller => 'movies', :action => 'index'
+      hashy[:order] = "title"
+      redirect_to hashy
     end
   end
   

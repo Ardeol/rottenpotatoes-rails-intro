@@ -70,10 +70,8 @@ private
   def test_redirect(p)
     if !p
       hashy = Hash.new
-      hashy[:controller] = "movies"
-      hashy[:action] = "index"
       hashy[:order] = "title"
-      redirect_to hashy
+      redirect_to movies_path, hashy
     end
   end
   

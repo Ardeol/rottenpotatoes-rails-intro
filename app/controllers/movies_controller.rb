@@ -6,6 +6,10 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @remembered_ratings = Hash.new(false)
     Movie.all_ratings.each { |r| @remembered_ratings[r] = true }
+    
+    #session[:order] = 'id'
+    #session[:ratings] 
+    @test = false
   end
   
   def movie_params
@@ -20,6 +24,8 @@ class MoviesController < ApplicationController
 
   def index
   # Filter by ratings, and ensure no invalid values are present
+    test_redirect
+    
     rating_filter = params.key?(:ratings) ? params[:ratings].keys.delete_if {|item| !Movie.all_ratings.include?(item) } : Movie.all_ratings
     @remembered_ratings.each_key { |k| @remembered_ratings[k] = rating_filter.include?(k) }
     cur_movies = Movie.where(rating: rating_filter)
@@ -59,5 +65,17 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
+  
+  
+private
+  def test_redirect
+    if !@test
+      @test = true
+      hashy = Hash.new
+      hashy[:order] = "title"
+      redirect_to hashy
+    end
+  end
+  
 
 end

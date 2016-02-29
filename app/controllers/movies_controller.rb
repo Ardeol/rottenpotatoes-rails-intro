@@ -6,9 +6,6 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @remembered_ratings = Hash.new(false)
     Movie.all_ratings.each { |r| @remembered_ratings[r] = true }
-    
-    #session[:order] = 'id'
-    #session[:ratings] 
   end
   
   def movie_params
@@ -23,16 +20,24 @@ class MoviesController < ApplicationController
 
   def index
   # Filter by ratings, and ensure no invalid values are present
-    test_redirect(params.key?(:order))
+    session_redirect(params)
     
+  # Remember the rating checkmarks (part 2 of the hw)
     rating_filter = params.key?(:ratings) ? params[:ratings].keys.delete_if {|item| !Movie.all_ratings.include?(item) } : Movie.all_ratings
     @remembered_ratings.each_key { |k| @remembered_ratings[k] = rating_filter.include?(k) }
     cur_movies = Movie.where(rating: rating_filter)
+    
   # Sanitize the field first; id used by default
     params[:order] = %w{title release_date}.include?(params[:order]) ? params[:order] : 'id'
+    
+  # Set the session values
+    session[:order] = params[:order]
+    session[:ratings] = params[:ratings]
+    
   # Hilite the correct th
     @hilite.clear
     @hilite[params[:order]] = "hilite"
+    
   # Retrieve in correct order
     @movies = cur_movies.order "#{params[:order]} ASC"
   end
@@ -72,6 +77,21 @@ private
       hashy = Hash.new
       hashy[:order] = "title"
       redirect_to movies_path(hashy)
+    end
+  end
+  
+  def session_redirect(params)
+    if !params.key?(:order) || !params.key?(:ratings)
+      options = Hash.new
+      options[:order] = session.key?(:order) ? session[:order] : 'id'
+      if session.key?(:ratings)
+        options[:ratings] = session[:ratings]
+      else
+        r = Hash.new
+        Movie.all_ratings.each { |item| r[item] = 1 }
+        options[:ratings] = r
+      end
+      redirect_to movies_path(options)
     end
   end
   

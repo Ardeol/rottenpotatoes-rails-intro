@@ -68,7 +68,7 @@ class MoviesController < ApplicationController
   
 private
   def test_redirect(p)
-    if p
+    if !p
       hashy = Hash.new
       hashy[:controller] = "movies"
       hashy[:action] = "index"

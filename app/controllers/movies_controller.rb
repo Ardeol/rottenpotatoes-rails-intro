@@ -71,7 +71,7 @@ private
     if !p
       hashy = Hash.new
       hashy[:order] = "title"
-      redirect_to movies_path, hashy
+      redirect_to movies_path(hashy)
     end
   end
   
